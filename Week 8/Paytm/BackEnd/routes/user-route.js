@@ -1,6 +1,8 @@
+// Libraries imports
 const express = require("express");
 const bcrypt = require("bcrypt");
 
+// Files imports
 const {
   signupValidation,
   signinValidation,
@@ -11,6 +13,7 @@ const { isLoggedIn } = require("../middlewares/authentication");
 
 const router = express.Router();
 
+// It sign up the user after a successful validation checks
 router.post("/signup", async (req, res) => {
   try {
     const { username, firstName, lastName, password } = req.body;
@@ -63,6 +66,7 @@ router.post("/signup", async (req, res) => {
   }
 });
 
+// It sign in the user after a successful validation checks
 router.post("/signin", async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -100,10 +104,7 @@ router.post("/signin", async (req, res) => {
   }
 });
 
-router.get("/check", isLoggedIn, (req, res) => {
-  res.send("welcome");
-});
-
+// It logs out the user by clearing the token cookie
 router.get("/logout", (req, res) => {
   res.clearCookie("token");
   res.status(200).json({

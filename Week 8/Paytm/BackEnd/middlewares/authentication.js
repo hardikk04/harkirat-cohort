@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 
+// verify the token send sends next if the token is valid
 const isLoggedIn = (req, res, next) => {
   try {
     if (req.cookies.token) {
