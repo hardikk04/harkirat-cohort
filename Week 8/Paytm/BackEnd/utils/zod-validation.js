@@ -18,8 +18,20 @@ const userSigninSchema = zod.object({
 });
 
 const signinValidation = (data) => {
-    const result = userSigninSchema.safeParse(data);
-    return result.success;
-  };
+  const result = userSigninSchema.safeParse(data);
+  return result.success;
+};
 
-module.exports = { signupValidation, signinValidation };
+const userUpdateSchema = zod.object({
+  username: zod.string().optional(),
+  firstName: zod.string().optional(),
+  lastName: zod.string().optional(),
+  password: zod.string().optional(),
+});
+
+const userUpdateValidation = (data) => {
+  const result = userUpdateSchema.safeParse(data);
+  return result.success;
+};
+
+module.exports = { signupValidation, signinValidation, userUpdateValidation };

@@ -10,6 +10,8 @@ const isLoggedIn = (req, res, next) => {
           return res.status(403).json({ message: "Token expired" });
         } else {
           req.user = decoded;
+          
+
           next();
         }
       });
