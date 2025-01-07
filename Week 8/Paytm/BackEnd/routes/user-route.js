@@ -19,6 +19,7 @@ const router = express.Router();
 router.post("/signup", async (req, res) => {
   try {
     const { username, firstName, lastName, password } = req.body;
+
     const validationResult = signupValidation({
       username,
       firstName,
@@ -63,6 +64,7 @@ router.post("/signup", async (req, res) => {
 
         return res.status(200).json({
           message: "User created successfully",
+          token,
         });
       }
     });
@@ -77,19 +79,21 @@ router.post("/signup", async (req, res) => {
 router.post("/signin", async (req, res) => {
   try {
     const { username, password } = req.body;
+    
     const validationResult = signinValidation({ username, password });
     if (!validationResult) {
       return res.status(411).json({
         message: "Validation failed",
       });
     }
-
+    
     const user = await userModel.findOne({ username });
     if (!user) {
       return res.status(411).json({
         message: "Error while logging in",
       });
     }
+    console.log(username, password);
 
     bcrypt.compare(password, user.password, (err, result) => {
       if (result) {
@@ -97,10 +101,11 @@ router.post("/signin", async (req, res) => {
         res.cookie("token", token);
         return res.status(200).json({
           message: "User logged in successfully",
+          token,
         });
       } else {
         return res.status(411).json({
-          message: "Error while logging in",
+          message: "Username and password incorrect",
         });
       }
     });
