@@ -1,6 +1,10 @@
+import axios from "axios";
 import Button from "./Button";
+import { useNavigate } from "react-router-dom";
 
 const User = ({ user }) => {
+  const navigate = useNavigate();
+
   return (
     <div className="flex justify-between mt-1">
       <div className="flex">
@@ -17,7 +21,12 @@ const User = ({ user }) => {
       </div>
 
       <div className="flex flex-col justify-center h-ful">
-        <Button label={"Send Money"} />
+        <Button
+          onClick={() => {
+            navigate("/send?id=" + user._id + "&name=" + user.username);
+          }}
+          label={"Send Money"}
+        />
       </div>
     </div>
   );

@@ -79,14 +79,14 @@ router.post("/signup", async (req, res) => {
 router.post("/signin", async (req, res) => {
   try {
     const { username, password } = req.body;
-    
+
     const validationResult = signinValidation({ username, password });
     if (!validationResult) {
       return res.status(411).json({
         message: "Validation failed",
       });
     }
-    
+
     const user = await userModel.findOne({ username });
     if (!user) {
       return res.status(411).json({
@@ -152,8 +152,6 @@ router.put("/update", isLoggedIn, async (req, res) => {
 
 router.get("/bulk", async (req, res) => {
   const filter = req.query.filter || "";
-
-  console.log(filter);
 
   const users = await userModel.find({
     $or: [

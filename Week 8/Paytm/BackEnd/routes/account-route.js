@@ -25,7 +25,10 @@ router.post("/tranfer", isLoggedIn, async (req, res) => {
 
     session.startTransaction();
     const { to, amount } = req.body;
+
     const sender = await accountModel.findOne({ userId: req.user.id });
+    console.log(sender);
+
     if (sender.balance < amount) {
       await session.abortTransaction();
       return res.status(400).json({
@@ -34,6 +37,7 @@ router.post("/tranfer", isLoggedIn, async (req, res) => {
     }
 
     const reciver = await accountModel.findOne({ userId: to });
+    console.log(reciver);
 
     if (!reciver) {
       await session.abortTransaction();
